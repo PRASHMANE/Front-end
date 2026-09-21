@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRONTEND_ENGINEER.ROADMAP — JS/React/Next.js/RN for SaaS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0c10;
+    --bg-alt:#0d1015;
+    --panel:#11141a;
+    --panel-hi:#151a21;
+    --border:#232a34;
+    --border-soft:#1a1f27;
+    --grid-line:rgba(97,218,251,0.045);
+    --text:#e8ecf2;
+    --text-dim:#8b96a5;
+    --text-faint:#535d6c;
+    --js:#f0db4f;
+    --js-dim:rgba(240,219,79,0.14);
+    --react:#61dafb;
+    --react-dim:rgba(97,218,251,0.12);
+    --native:#c9a6fb;
+    --native-dim:rgba(201,166,251,0.14);
+    --green:#7fd88f;
+    --red:#f0788a;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0/44px 44px,
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0/44px 44px,
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  ::selection{background:var(--react-dim); color:var(--react);}
+  a{color:inherit;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--border); border-radius:6px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--text-faint);}
+
+  /* ============ TOPBAR ============ */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    background:rgba(10,12,16,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .topbar .brand{
+    font-family:var(--mono); font-weight:700; font-size:13px;
+    letter-spacing:0.06em; color:var(--text);
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand .tag-icon{color:var(--react);}
+  .brand .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 8px var(--green);
+    animation:blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1;} 50%{opacity:0.35;}}
+  .topbar .meta{
+    font-family:var(--mono); font-size:11px; color:var(--text-faint);
+    display:flex; gap:18px;
+  }
+  .topbar .meta span b{color:var(--react); font-weight:600;}
+  @media (max-width:760px){ .topbar .meta{display:none;} }
+
+  /* ============ HERO ============ */
+  .hero{
+    max-width:1180px; margin:0 auto;
+    padding:88px 32px 64px;
+    position:relative;
+  }
+  .hero .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.2em;
+    color:var(--react); text-transform:uppercase;
+    display:flex; align-items:center; gap:12px; margin-bottom:22px;
+  }
+  .hero .eyebrow::before{ content:''; width:26px; height:1px; background:var(--react); }
+  .hero h1{
+    font-family:var(--mono); font-weight:800;
+    font-size:clamp(30px, 5.2vw, 58px);
+    line-height:1.08; letter-spacing:-0.01em;
+    color:var(--text);
+  }
+  .hero h1 .tagchar{color:var(--text-faint); font-weight:600;}
+  .hero h1 .accent{color:var(--js);}
+  .hero p.lede{ max-width:660px; margin-top:22px; font-size:16.5px; color:var(--text-dim); }
+  .hero .stats{
+    display:flex; flex-wrap:wrap; gap:0; margin-top:44px;
+    border:1px solid var(--border); border-radius:10px;
+    overflow:hidden; background:var(--panel);
+  }
+  .hero .stat{ flex:1 1 140px; padding:18px 22px; border-right:1px solid var(--border); }
+  .hero .stat:last-child{border-right:none;}
+  .hero .stat .num{ font-family:var(--mono); font-weight:700; font-size:26px; color:var(--js); }
+  .hero .stat .lbl{
+    font-size:11.5px; color:var(--text-faint); margin-top:4px;
+    text-transform:uppercase; letter-spacing:0.06em;
+  }
+
+  /* ============ LEGEND ============ */
+  .legend-wrap{max-width:1180px; margin:0 auto; padding:0 32px 20px;}
+  .legend{
+    display:flex; flex-wrap:wrap; gap:22px; padding:16px 20px;
+    border:1px dashed var(--border); border-radius:10px;
+    font-family:var(--mono); font-size:12px; color:var(--text-dim);
+  }
+  .legend .item{display:flex; align-items:center; gap:8px;}
+  .meter{display:inline-flex; gap:2px;}
+  .meter i{width:6px; height:12px; border-radius:1px; background:var(--border);}
+  .meter.p5 i:nth-child(-n+5){background:var(--red);}
+  .meter.p4 i:nth-child(-n+4){background:var(--js);}
+  .meter.p3 i:nth-child(-n+3){background:var(--react);}
+  .swatch{width:10px; height:10px; border-radius:3px;}
+  .swatch.web{background:var(--react);}
+  .swatch.native{background:var(--native);}
+
+  /* ============ MAIN LAYOUT ============ */
+  .layout{
+    max-width:1180px; margin:0 auto;
+    display:grid; grid-template-columns:64px 1fr;
+    gap:0 28px; padding:20px 32px 40px; position:relative;
+  }
+  @media (max-width:900px){ .layout{grid-template-columns:40px 1fr; padding:20px 18px 40px;} }
+
+  .rail{ position:relative; grid-column:1; }
+  .rail::before{
+    content:''; position:absolute; left:50%; top:0; bottom:0;
+    width:2px; transform:translateX(-50%);
+    background:linear-gradient(var(--border), var(--border));
+  }
+  .rail .pulse{
+    position:absolute; left:50%; width:8px; height:8px;
+    transform:translateX(-50%); border-radius:50%; background:var(--react);
+    box-shadow:0 0 12px 2px var(--react);
+    animation:travel 7s linear infinite;
+  }
+  @keyframes travel{
+    0%{top:0%; opacity:0;} 5%{opacity:1;} 95%{opacity:1;} 100%{top:100%; opacity:0;}
+  }
+
+  /* ============ QUICK NAV ============ */
+  .quicknav{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:5px; z-index:40;
+  }
+  .quicknav a{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--border); border:1px solid var(--border-soft);
+    transition:all .2s ease; position:relative;
+  }
+  .quicknav a:hover, .quicknav a.active{
+    background:var(--js); box-shadow:0 0 8px var(--js); transform:scale(1.3);
+  }
+  .quicknav a.native-dot:hover, .quicknav a.native-dot.active{
+    background:var(--native); box-shadow:0 0 8px var(--native);
+  }
+  .quicknav a .tip{
+    position:absolute; right:18px; top:50%; transform:translateY(-50%);
+    white-space:nowrap; font-family:var(--mono); font-size:10.5px;
+    background:var(--panel-hi); border:1px solid var(--border);
+    padding:3px 8px; border-radius:5px; color:var(--text-dim);
+    opacity:0; pointer-events:none; transition:opacity .15s ease;
+  }
+  .quicknav a:hover .tip{opacity:1;}
+  @media (max-width:1200px){ .quicknav{display:none;} }
+
+  /* ============ PHASE (module) ============ */
+  .phase{ grid-column:2; margin-bottom:34px; scroll-margin-top:90px; }
+  .phase .node{ position:relative; }
+  .phase .addr-wrap{
+    position:absolute; left:calc(-28px - 32px); top:2px; width:64px; text-align:center;
+  }
+  .addr{
+    display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:700;
+    color:var(--bg); background:var(--react);
+    padding:4px 0; width:56px; border-radius:5px;
+    box-shadow:0 0 0 4px var(--bg), 0 0 14px rgba(97,218,251,0.35);
+    position:relative; left:-32px;
+  }
+  .addr.native{ background:var(--native); box-shadow:0 0 0 4px var(--bg), 0 0 14px rgba(201,166,251,0.35); }
+  @media (max-width:900px){
+    .phase .addr-wrap{left:calc(-20px - 20px); width:40px;}
+    .addr{width:38px; font-size:8.5px; left:-20px;}
+  }
+
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    padding:26px 28px; transition:border-color .2s ease;
+  }
+  .card.native{ border-color:rgba(201,166,251,0.25); }
+  .card:hover{border-color:#2a3644;}
+
+  .phase-head{
+    display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between;
+    gap:10px; margin-bottom:6px;
+  }
+  .phase-title{ font-family:var(--mono); font-weight:700; font-size:18.5px; color:var(--text); }
+  .phase-why{
+    color:var(--text-dim); font-size:14.5px; margin:10px 0 20px;
+    border-left:2px solid var(--border); padding-left:14px;
+  }
+  .card.native .phase-why{ border-left-color:rgba(201,166,251,0.4); }
+
+  .tools{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:14px; }
+  .tool{ background:var(--bg-alt); border:1px solid var(--border-soft); border-radius:9px; padding:14px 16px; }
+  .tool .tname{ font-family:var(--mono); font-weight:600; font-size:13.5px; color:var(--react); margin-bottom:6px; display:block; }
+  .card.native .tool .tname{ color:var(--native); }
+  .tool .tuse{ font-size:13px; color:var(--text-dim); line-height:1.5; }
+
+  .note{
+    margin-top:16px; font-size:13px; color:var(--text-faint);
+    background:var(--js-dim); border:1px solid rgba(240,219,79,0.2);
+    border-radius:8px; padding:10px 14px;
+  }
+  .note b{color:var(--js); font-weight:600;}
+
+  .gapflag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.05em;
+    color:var(--js); background:var(--js-dim);
+    border:1px solid rgba(240,219,79,0.3);
+    padding:2px 8px; border-radius:20px; margin-left:8px;
+    text-transform:uppercase; vertical-align:middle;
+  }
+
+  /* ============ TIER DIVIDER ============ */
+  .tier-divider{ grid-column:1 / -1; display:flex; align-items:center; gap:16px; margin:52px 0 22px; }
+  .tier-divider .line{flex:1; height:1px; background:var(--border);}
+  .tier-divider .label{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
+    color:var(--js); text-transform:uppercase; display:flex; align-items:center; gap:10px;
+    white-space:nowrap;
+  }
+  .tier-divider .label .n{ font-size:10px; color:var(--text-faint); font-weight:400; }
+  .tier-divider.native .label{ color:var(--native); }
+
+  /* ============ FOOTER ============ */
+  footer{ max-width:1180px; margin:30px auto 0; padding:50px 32px 90px; border-top:1px solid var(--border-soft); }
+  footer .foot-grid{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:26px; }
+  footer h4{ font-family:var(--mono); font-size:13px; color:var(--text); margin-bottom:10px; letter-spacing:0.04em; }
+  footer p{ font-size:13px; color:var(--text-faint); max-width:420px; }
+  footer .sig{
+    font-family:var(--mono); font-size:11px; color:var(--text-faint);
+    margin-top:36px; padding-top:20px; border-top:1px solid var(--border-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .rail .pulse{animation:none; display:none;}
+    .brand .dot{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="tag-icon">&lt;/&gt;</span> FRONTEND_ROADMAP.SYS <span class="dot"></span></div>
+  <div class="meta">
+    <span>NODES: <b>28</b></span>
+    <span>TOOLS: <b>140+</b></span>
+    <span>STACK: <b>JS&nbsp;→&nbsp;TS&nbsp;→&nbsp;WEB&nbsp;→&nbsp;NATIVE</b></span>
+  </div>
+</div>
+
+<div class="quicknav" id="quicknav"></div>
+
+<section class="hero">
+  <div class="eyebrow">Master Frontend + App Engineering Path</div>
+  <h1>One language.<br><span class="accent">Web, mobile, SaaS</span> — mapped.</h1>
+  <p class="lede">JavaScript is the one root. TypeScript, React, Next.js, and React Native all grow out of it — so this map treats them as one continuous tree, not four separate roadmaps. Includes the SaaS-specific layer most tutorials skip: billing UI, multi-tenancy, analytics, and shipping to both the browser and the app store.</p>
+  <div class="stats">
+    <div class="stat"><div class="num">28</div><div class="lbl">Modules</div></div>
+    <div class="stat"><div class="num">12</div><div class="lbl">Learning tiers</div></div>
+    <div class="stat"><div class="num">140+</div><div class="lbl">Tools &amp; techs</div></div>
+    <div class="stat"><div class="num">12</div><div class="lbl">Gaps filled in</div></div>
+  </div>
+</section>
+
+<div class="legend-wrap">
+  <div class="legend">
+    <span class="item"><span class="meter p5"><i></i><i></i><i></i><i></i><i></i></span> Critical — non‑negotiable</span>
+    <span class="item"><span class="meter p4"><i></i><i></i><i></i><i></i><i></i></span> High — expected in most roles</span>
+    <span class="item"><span class="meter p3"><i></i><i></i><i></i></span> Situational — role/scale dependent</span>
+    <span class="item"><span class="gapflag" style="margin-left:0;">Added</span> filled in for completeness</span>
+    <span class="item"><span class="swatch web"></span> Web track</span>
+    <span class="item"><span class="swatch native"></span> React Native track</span>
+  </div>
+</div>
+
+<div class="layout" id="layout">
+  <div class="rail"><div class="pulse"></div></div>
+
+  <!-- ===================================================== TIER 0 -->
+  <div class="tier-divider"><span class="label">Tier 00 <span class="n">— Web Foundations</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p00">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x00</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Core Web Fundamentals</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Every framework below is an abstraction over these three — skip them and React's rules stop making sense the moment something breaks.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">HTML5</span><span class="tuse">Semantic structure — the tags you choose directly affect accessibility and SEO, not just layout.</span></div>
+          <div class="tool"><span class="tname">CSS3</span><span class="tuse">Box model, Flexbox, Grid, specificity. Every "why isn't this centered" bug traces back here.</span></div>
+          <div class="tool"><span class="tname">Modern JavaScript (ES6+)</span><span class="tuse">Closures, promises/async-await, destructuring, modules. This is the language every tool on this page compiles down to.</span></div>
+          <div class="tool"><span class="tname">Browser Rendering &amp; DOM <span class="gapflag">Added</span></span><span class="tuse">Parse → Style → Layout → Paint → Composite. Explains why some CSS changes are expensive and why React batches updates.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 1 -->
+  <div class="tier-divider"><span class="label">Tier 01 <span class="n">— Language Mastery</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p01">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x01</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">TypeScript Mastery</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">You called this out specifically — and it's the right call. Next.js, most component libraries, and every serious SaaS codebase assume TypeScript, not plain JS.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Types &amp; Interfaces</span><span class="tuse">Model your data shapes so mismatches get caught at compile time, not in a user's browser.</span></div>
+          <div class="tool"><span class="tname">Generics</span><span class="tuse">Write reusable functions/components that stay type-safe across different data shapes — the core of typing a good API client.</span></div>
+          <div class="tool"><span class="tname">Utility Types</span><span class="tuse"><code>Partial</code>, <code>Pick</code>, <code>Omit</code>, <code>Record</code> — transform existing types instead of redefining them.</span></div>
+          <div class="tool"><span class="tname">Strict tsconfig</span><span class="tuse">Turn on <code>strict: true</code> from day one — retrofitting strictness onto a loose codebase later is painful.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 2 -->
+  <div class="tier-divider"><span class="label">Tier 02 <span class="n">— Core Framework</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p02">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x02</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">React</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">The mental model every other tool in this map — Next.js, React Native, most state and data libraries — is built directly on top of.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Hooks</span><span class="tuse"><code>useState</code>, <code>useEffect</code>, <code>useMemo</code>, <code>useCallback</code>, custom hooks — the entire modern React API surface.</span></div>
+          <div class="tool"><span class="tname">Component Model</span><span class="tuse">Props down, events up, composition over inheritance — the design philosophy behind every well-structured React app.</span></div>
+          <div class="tool"><span class="tname">Context API</span><span class="tuse">Share state across a component tree without prop-drilling it through ten layers.</span></div>
+          <div class="tool"><span class="tname">Reconciliation &amp; Virtual DOM</span><span class="tuse">Why React re-renders what it does, and why keys matter in lists — understand this before you fight a "why is this not updating" bug.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p03">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x03</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Next.js</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">The production default for React-based SaaS — solves routing, rendering strategy, and API endpoints in one framework instead of assembling them yourself.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">App Router</span><span class="tuse">File-system based routing with layouts, nested routes, and loading/error states built in.</span></div>
+          <div class="tool"><span class="tname">SSR / SSG / ISR / CSR</span><span class="tuse">Choose per-page how a page is rendered — server, static, incrementally revalidated, or client — based on how fresh the data needs to be.</span></div>
+          <div class="tool"><span class="tname">Server Components</span><span class="tuse">Render components on the server with zero client-side JS shipped for them — big wins for initial load time on content-heavy SaaS pages.</span></div>
+          <div class="tool"><span class="tname">API Routes &amp; Middleware</span><span class="tuse">Ship a lightweight backend endpoint or request interceptor (auth checks, redirects) from inside the same project.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 3 -->
+  <div class="tier-divider"><span class="label">Tier 03 <span class="n">— State &amp; Data</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p04">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x04</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">State Management</div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">"Where does this piece of data live" is one of the most consequential architecture decisions in a growing SaaS frontend.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Redux Toolkit</span><span class="tuse">Predictable, centralized state with dev tools and time-travel debugging — still the right call for large, complex apps.</span></div>
+          <div class="tool"><span class="tname">Zustand</span><span class="tuse">Minimal, hook-based global state without Redux's boilerplate — the modern default for most mid-size apps.</span></div>
+          <div class="tool"><span class="tname">Jotai</span><span class="tuse">Atomic state model — good fit when state is naturally split into many small, independent pieces.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p05">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x05</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Data Fetching &amp; Server State</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Server data isn't like client state — it goes stale, needs caching, and can fail mid-flight. These tools handle that so you don't hand-roll it badly.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">TanStack Query</span><span class="tuse">Caching, background refetching, and request deduplication for server data — the standard companion to any REST or GraphQL API.</span></div>
+          <div class="tool"><span class="tname">SWR</span><span class="tuse">Vercel's lighter-weight data fetching hook — "stale-while-revalidate" caching with a smaller API surface.</span></div>
+          <div class="tool"><span class="tname">tRPC</span><span class="tuse">End-to-end typed API calls between a TypeScript frontend and backend — no manual API client or schema duplication.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p06">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x06</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Forms &amp; Validation</div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Every SaaS product is mostly forms — signup, settings, billing, onboarding. Getting this layer right removes a huge class of bugs and support tickets.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">React Hook Form</span><span class="tuse">Uncontrolled-by-default forms for performance — minimal re-renders even on large, complex forms.</span></div>
+          <div class="tool"><span class="tname">Zod</span><span class="tuse">Schema validation that also gives you inferred TypeScript types — one schema, validated on both client and server.</span></div>
+          <div class="tool"><span class="tname">Formik</span><span class="tuse">Older but still common alternative — know it for legacy codebases even if you reach for RHF on new work.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 4 -->
+  <div class="tier-divider"><span class="label">Tier 04 <span class="n">— UI &amp; Styling</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p07">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x07</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Styling Systems</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Determines how fast your team can build UI and how consistent it stays as more people touch the codebase.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Tailwind CSS</span><span class="tuse">Utility-first classes directly in markup — currently the default choice for fast-moving SaaS teams.</span></div>
+          <div class="tool"><span class="tname">CSS Modules</span><span class="tuse">Locally scoped class names with zero runtime cost — a solid plain-CSS option inside component-based frameworks.</span></div>
+          <div class="tool"><span class="tname">styled-components / Emotion</span><span class="tuse">CSS-in-JS — colocate styles with components, with dynamic theming based on props.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p08">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x08</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Component Libraries &amp; Design Systems</div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Don't hand-build a date picker from scratch — the accessibility edge cases alone will eat a week you don't have.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">shadcn/ui</span><span class="tuse">Copy-paste, fully-owned components built on Radix — currently the most popular choice for new SaaS UIs.</span></div>
+          <div class="tool"><span class="tname">Radix UI</span><span class="tuse">Unstyled, accessible primitives (dialogs, dropdowns, popovers) that handle keyboard nav and ARIA for you.</span></div>
+          <div class="tool"><span class="tname">Storybook</span><span class="tuse">Build and visually test components in isolation — doubles as living documentation for your design system.</span></div>
+        </div>
+        <div class="note"><b>Gap filled — Atomic Design:</b> organize components as atoms → molecules → organisms → templates → pages. Gives a shared vocabulary for "how big should this component be" as the library grows.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 5 -->
+  <div class="tier-divider"><span class="label">Tier 05 <span class="n">— Quality &amp; Performance</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p09">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x09</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Testing</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Lets you ship UI changes fast without manually clicking through every screen after every commit.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Vitest / Jest</span><span class="tuse">Unit and integration test runners — Vitest is the faster, Vite-native pick for new projects.</span></div>
+          <div class="tool"><span class="tname">React Testing Library</span><span class="tuse">Tests components the way a user interacts with them, not their internal implementation details.</span></div>
+          <div class="tool"><span class="tname">Playwright</span><span class="tuse">Fast, reliable end-to-end browser testing across Chromium, Firefox, and WebKit.</span></div>
+          <div class="tool"><span class="tname">Cypress</span><span class="tuse">Developer-friendly E2E testing with a strong visual debugging experience — the other major E2E option.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p10">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x0A</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Performance &amp; Web Vitals <span class="gapflag">Added tier</span></div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">A slow SaaS dashboard directly costs you trial conversions and retention — this isn't optional polish, it's a growth lever.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Code Splitting &amp; Lazy Loading</span><span class="tuse">Ship only the JS a page actually needs — <code>dynamic()</code> imports and route-based splitting in Next.js.</span></div>
+          <div class="tool"><span class="tname">Memoization</span><span class="tuse"><code>useMemo</code>, <code>useCallback</code>, <code>React.memo</code> — prevent expensive re-renders, but only after profiling shows they matter.</span></div>
+          <div class="tool"><span class="tname">Image Optimization</span><span class="tuse">Next.js <code>&lt;Image&gt;</code> — automatic resizing, lazy loading, and modern formats (WebP/AVIF) without manual work.</span></div>
+          <div class="tool"><span class="tname">Core Web Vitals</span><span class="tuse">LCP, INP, CLS — the metrics Google actually uses to rank and that real users actually feel.</span></div>
+          <div class="tool"><span class="tname">Lighthouse</span><span class="tuse">Automated auditing for performance, accessibility, and SEO — run it in CI so regressions get caught before merge.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p11">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x0B</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Accessibility (a11y) <span class="gapflag">Added tier</span></div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Legally required in many markets for SaaS products, and simply excludes real paying customers when skipped.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">WCAG Guidelines</span><span class="tuse">The standard your product likely needs to meet — color contrast, focus order, alt text as baseline requirements.</span></div>
+          <div class="tool"><span class="tname">ARIA</span><span class="tuse">Fill gaps native HTML can't express — but the first rule is: use semantic HTML before reaching for ARIA at all.</span></div>
+          <div class="tool"><span class="tname">axe / Lighthouse a11y audit</span><span class="tuse">Automated scanning to catch the easy 30–40% of accessibility issues before manual review.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 6 -->
+  <div class="tier-divider"><span class="label">Tier 06 <span class="n">— Build &amp; Tooling</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p12">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x0C</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Build Tools &amp; Code Quality</div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">The invisible layer that turns your source code into what actually ships — and keeps a team's code style from fragmenting.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Vite</span><span class="tuse">Near-instant dev server startup and HMR — the modern default bundler for non-Next.js React apps.</span></div>
+          <div class="tool"><span class="tname">Turbopack</span><span class="tuse">Next.js's Rust-based bundler, built for large app build/dev speed as projects scale.</span></div>
+          <div class="tool"><span class="tname">Webpack</span><span class="tuse">The older, still-widespread bundler — worth understanding since much tooling still documents against it.</span></div>
+          <div class="tool"><span class="tname">ESLint &amp; Prettier</span><span class="tuse">Catch bugs and enforce a single formatting style automatically, before a PR review ever gets to style nitpicks.</span></div>
+        </div>
+        <div class="note"><b>Gap filled — Git Hooks:</b> Husky + lint-staged. Run linting/formatting/tests automatically on commit so broken code never even reaches a PR.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 7 -->
+  <div class="tier-divider"><span class="label">Tier 07 <span class="n">— Auth, Security &amp; Real-Time</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p13">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x0D</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Authentication (Frontend)</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Every SaaS product starts at a login screen — get session handling wrong here and nothing else matters.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Auth.js (NextAuth)</span><span class="tuse">Drop-in auth for Next.js — social login, credentials, and session management with minimal setup.</span></div>
+          <div class="tool"><span class="tname">Clerk</span><span class="tuse">Fully managed auth with prebuilt UI components — fastest path to production-grade auth for a SaaS MVP.</span></div>
+          <div class="tool"><span class="tname">Supabase Auth</span><span class="tuse">Auth bundled with a Postgres backend — a good fit if you're already using Supabase for data.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p14">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x0E</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Frontend Security <span class="gapflag">Added tier</span></div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">The browser is a hostile environment by default — assume anything you send to the client can be read or tampered with.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Content Security Policy (CSP)</span><span class="tuse">Restricts which scripts/origins can execute on your page — a strong second line of defense against XSS.</span></div>
+          <div class="tool"><span class="tname">Client-side XSS Prevention</span><span class="tuse">React escapes output by default — the risk shows up the moment you use <code>dangerouslySetInnerHTML</code> carelessly.</span></div>
+          <div class="tool"><span class="tname">Secure Token Storage</span><span class="tuse">httpOnly cookies over localStorage for auth tokens — localStorage is readable by any injected script.</span></div>
+          <div class="tool"><span class="tname">CORS Awareness</span><span class="tuse">Understand it from the client side too — it explains why a working API call in Postman fails in the browser.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p15">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x0F</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Real-Time &amp; Live Data <span class="gapflag">Added tier</span></div>
+          <div class="meter p3"><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Collaborative features, live dashboards, and notifications all need a channel that isn't request/response.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">WebSockets / Socket.io</span><span class="tuse">Persistent bidirectional connection for live features — chat, presence, collaborative editing.</span></div>
+          <div class="tool"><span class="tname">Pusher / Ably</span><span class="tuse">Managed real-time infrastructure — skip running your own WebSocket servers for most SaaS use cases.</span></div>
+          <div class="tool"><span class="tname">Server-Sent Events (SSE)</span><span class="tuse">Simpler one-way server-to-client streaming — a good fit for live notifications or streaming AI responses.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 8 : NATIVE -->
+  <div class="tier-divider native"><span class="label">Tier 08 <span class="n">— App Development (React Native)</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p16">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr addr native">0x10</span></div>
+      <div class="card native">
+        <div class="phase-head">
+          <div class="phase-title">React Native Core</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Same component model you already know from React — the payoff for mastering React first is that this tier moves fast.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Core Components</span><span class="tuse"><code>View</code>, <code>Text</code>, <code>FlatList</code>, <code>Pressable</code> — the native equivalents of HTML elements, rendered to real native views.</span></div>
+          <div class="tool"><span class="tname">React Navigation</span><span class="tuse">Stack, tab, and drawer navigators — the standard way to structure screens in a mobile app.</span></div>
+          <div class="tool"><span class="tname">Native Modules</span><span class="tuse">Bridge to platform-specific APIs (camera, biometrics) when a JS-only library doesn't cover what you need.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p17">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr addr native">0x11</span></div>
+      <div class="card native">
+        <div class="phase-head">
+          <div class="phase-title">Expo &amp; Build Pipeline</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Expo removes almost all of the native build-toolchain pain that used to make React Native setup a multi-day project.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Expo SDK</span><span class="tuse">Prebuilt native APIs (camera, notifications, location) without writing native code yourself.</span></div>
+          <div class="tool"><span class="tname">EAS Build / Submit <span class="gapflag">Added</span></span><span class="tuse">Cloud-based builds for iOS/Android and direct submission to the app stores — no local Xcode/Android Studio required.</span></div>
+          <div class="tool"><span class="tname">OTA Updates <span class="gapflag">Added</span></span><span class="tuse">Push JS bundle updates to installed apps instantly, bypassing the app store review cycle for non-native changes.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p18">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr addr native">0x12</span></div>
+      <div class="card native">
+        <div class="phase-head">
+          <div class="phase-title">Mobile-Specific Concerns <span class="gapflag">Added tier</span></div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">The details that don't exist on web at all, and that first-time mobile developers consistently underestimate.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Push Notifications</span><span class="tuse">Expo Notifications or Firebase Cloud Messaging — a core retention lever for any consumer or SaaS mobile app.</span></div>
+          <div class="tool"><span class="tname">Offline Storage</span><span class="tuse">AsyncStorage for simple key-value data, MMKV for faster, larger local storage needs.</span></div>
+          <div class="tool"><span class="tname">Deep Linking</span><span class="tuse">Open a specific in-app screen from a URL, email, or notification tap.</span></div>
+          <div class="tool"><span class="tname">App Store Deployment</span><span class="tuse">Apple App Store Connect and Google Play Console review processes — budget real time for this, especially iOS review.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p19">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr addr native">0x13</span></div>
+      <div class="card native">
+        <div class="phase-head">
+          <div class="phase-title">Cross-Platform Code Sharing <span class="gapflag">Added tier</span></div>
+          <div class="meter p3"><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">The real payoff of "everything is JavaScript" — share logic, types, and even UI between your web app and mobile app instead of building both twice.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">React Native Web</span><span class="tuse">Run React Native components in a browser — one component codebase targeting three platforms.</span></div>
+          <div class="tool"><span class="tname">Expo Router</span><span class="tuse">File-based routing for React Native, modeled directly on Next.js's App Router — familiar mental model, less to relearn.</span></div>
+          <div class="tool"><span class="tname">Turborepo / Nx</span><span class="tuse">Monorepo tooling to share types, UI, and business logic between your Next.js web app and React Native app in one repo.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 9 : SAAS -->
+  <div class="tier-divider"><span class="label">Tier 09 <span class="n">— SaaS Product Layer</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p20">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x14</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">SaaS Essentials <span class="gapflag">Added tier</span></div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">The layer that turns "a working app" into "a sellable product" — none of this shows up in a typical React tutorial.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Stripe.js / Stripe Elements</span><span class="tuse">Embeddable, PCI-compliant billing UI — pricing pages, checkout, and subscription management without touching raw card data.</span></div>
+          <div class="tool"><span class="tname">Multi-Tenancy (Frontend)</span><span class="tuse">Scope UI, data, and routing per organization/workspace — the structural backbone of any B2B SaaS.</span></div>
+          <div class="tool"><span class="tname">Feature Flags</span><span class="tuse">LaunchDarkly or PostHog flags — ship a feature to specific plans or beta users without a separate deploy.</span></div>
+          <div class="tool"><span class="tname">Internationalization (i18n)</span><span class="tuse">next-intl or react-i18next — plan for multiple languages/locales before it's a rushed retrofit.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p21">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x15</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Analytics &amp; Product Tracking <span class="gapflag">Added tier</span></div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">You can't improve activation or retention you aren't measuring — this is standard SaaS instrumentation, not an afterthought.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">PostHog</span><span class="tuse">Product analytics, session replay, and feature flags in one open-source tool — popular default for SaaS teams.</span></div>
+          <div class="tool"><span class="tname">Mixpanel</span><span class="tuse">Event-based analytics focused on user funnels and retention cohorts.</span></div>
+          <div class="tool"><span class="tname">Segment</span><span class="tuse">Single tracking layer that fans events out to whichever analytics/marketing tools you plug in — avoids re-instrumenting per tool.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p22">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x16</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">SEO for SaaS</div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Your marketing/landing pages live or die on this, even though your logged-in app dashboard doesn't need it at all.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Meta Tags &amp; Open Graph</span><span class="tuse">Control how your pages preview when shared on social/Slack — Next.js Metadata API handles this per-route.</span></div>
+          <div class="tool"><span class="tname">Sitemap &amp; robots.txt</span><span class="tuse">Tell search engines what to crawl and index — auto-generated by Next.js's built-in sitemap support.</span></div>
+          <div class="tool"><span class="tname">Structured Data (JSON-LD)</span><span class="tuse">Rich snippets in search results (pricing, reviews, FAQs) that plain meta tags can't produce.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 10 -->
+  <div class="tier-divider"><span class="label">Tier 10 <span class="n">— Deployment &amp; Ops</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p23">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x17</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Deployment &amp; Hosting</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Where the trade-off between "just works" and "full control" gets decided for your project.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Vercel</span><span class="tuse">Built by the Next.js team — zero-config deploys, preview URLs per PR, edge functions out of the box.</span></div>
+          <div class="tool"><span class="tname">Netlify</span><span class="tuse">Similar zero-config hosting, framework-agnostic — a common alternative outside the Next.js ecosystem.</span></div>
+          <div class="tool"><span class="tname">Cloudflare Pages</span><span class="tuse">Deploys to Cloudflare's edge network — very fast global response times, generous free tier.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p24">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x18</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">CI/CD for Frontend</div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Automates linting, testing, and deployment so shipping a change is a merge, not a manual checklist.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">GitHub Actions</span><span class="tuse">Run tests, lint, and type-check on every PR before it's mergeable.</span></div>
+          <div class="tool"><span class="tname">Turborepo Remote Caching</span><span class="tuse">Skip re-building/re-testing packages that haven't changed — dramatically speeds up CI in a monorepo.</span></div>
+          <div class="tool"><span class="tname">Preview Deployments</span><span class="tuse">Every PR gets its own live URL — reviewers see the actual change running, not just a diff.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase" id="p25">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x19</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Monitoring &amp; Error Tracking</div>
+          <div class="meter p4"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Frontend errors happen on devices you'll never see — this is how you find out about them before a user emails support.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Sentry</span><span class="tuse">Captures errors with full stack traces and the user session context leading up to them.</span></div>
+          <div class="tool"><span class="tname">LogRocket</span><span class="tuse">Session replay paired with error tracking — literally watch what the user did right before it broke.</span></div>
+          <div class="tool"><span class="tname">Web Vitals Monitoring</span><span class="tuse">Track real-user performance metrics in production, not just lab conditions from Lighthouse.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== TIER 11 -->
+  <div class="tier-divider"><span class="label">Tier 11 <span class="n">— Architecture at Scale</span></span><span class="line"></span></div>
+
+  <div class="phase" id="p26">
+    <div class="node">
+      <div class="addr-wrap"><span class="addr">0x1A</span></div>
+      <div class="card">
+        <div class="phase-head">
+          <div class="phase-title">Frontend Architecture</div>
+          <div class="meter p5"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="phase-why">Where a strong individual contributor becomes a lead — every tool above is a component; this is judgment about how to arrange them.</p>
+        <div class="tools">
+          <div class="tool"><span class="tname">Monorepos</span><span class="tuse">Turborepo or Nx managing web, mobile, and shared packages together — one source of truth for types and UI.</span></div>
+          <div class="tool"><span class="tname">Micro-Frontends</span><span class="tuse">Split a large app into independently deployable pieces — a scale-driven decision, not a default one.</span></div>
+          <div class="tool"><span class="tname">Feature-Based Folder Structure</span><span class="tuse">Organize by feature/domain instead of by file type — scales far better than a global <code>components/</code> folder past a certain size.</span></div>
+          <div class="tool"><span class="tname">Server vs Client Component Boundaries</span><span class="tuse">Deciding where the <code>"use client"</code> line goes is now a real architecture decision in Next.js — get it wrong and you ship far more JS than needed.</span></div>
+        </div>
+        <div class="note"><b>Gap filled — Design-to-Code Workflow:</b> Figma dev mode and shared design tokens (colors, spacing, type scale) keep design and code from drifting apart as a team grows past one or two people.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h4>How to use this map</h4>
+      <p>Move top to bottom through the web tiers first (00–07), then quality/tooling (08–09), then branch into React Native once React itself feels natural — the mobile tier assumes you already know the component model.</p>
+    </div>
+    <div>
+      <h4>On the SaaS-specific tiers</h4>
+      <p>Tiers 09 onward (billing, analytics, SEO) rarely appear in generic "learn React" courses, but they're exactly what separates a portfolio project from a shippable product.</p>
+    </div>
+  </div>
+  <div class="sig">/// frontend_roadmap.sys — 28 nodes traced — one language, three platforms, compiled for SaaS.</div>
+</footer>
+
+<script>
+  (function(){
+    var phases = Array.prototype.slice.call(document.querySelectorAll('.phase'));
+    var nav = document.getElementById('quicknav');
+    var links = [];
+    phases.forEach(function(p){
+      var addrEl = p.querySelector('.addr');
+      var addr = addrEl.textContent.trim();
+      var isNative = addrEl.classList.contains('native');
+      var title = p.querySelector('.phase-title').childNodes[0].textContent.trim();
+      var a = document.createElement('a');
+      a.href = '#' + p.id;
+      if(isNative) a.classList.add('native-dot');
+      var tip = document.createElement('span');
+      tip.className = 'tip';
+      tip.textContent = addr + ' ' + title;
+      a.appendChild(tip);
+      nav.appendChild(a);
+      links.push({id:p.id, el:a});
+    });
+
+    if ('IntersectionObserver' in window){
+      var map = {};
+      links.forEach(function(l){ map[l.id] = l.el; });
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            links.forEach(function(l){ l.el.classList.remove('active'); });
+            map[entry.target.id].classList.add('active');
+          }
+        });
+      }, {rootMargin: '-40% 0px -55% 0px', threshold: 0});
+      phases.forEach(function(p){ obs.observe(p); });
+    }
+  })();
+</script>
+
+</body>
+</html>
